@@ -10,6 +10,7 @@ from sklearn.neighbors import NearestNeighbors
 from sklearn.metrics import accuracy_score
 import NB
 import knn
+import svm
 
 data = pd.read_csv("/Users/AnkurG/Desktop/EECS349-ML/Projects/datasets/sentiments_mod.csv")
 
@@ -54,7 +55,11 @@ def main():
     ###2. now we'll do kNN
 
     #k=1
-    print('The accuracy of kNN is', knn.results)
+    print('The accuracy of 1NN is', knn.results)
+    ##################################################
+    ###3. now SVM
+
+    print('The accuracy of SVM is', svm.results)
 
 
 
