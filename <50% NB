@@ -1,47 +1,63 @@
-###here is all the stuff for kNN
-from sklearn.neighbors import KNeighborsClassifier
-import numpy as np
+import nltk
+from sklearn.naive_bayes import GaussianNB
 import pandas as pd
+from pandas import DataFrame
+import numpy as np
+from nltk.classify import NaiveBayesClassifier as nbc
 from sklearn import preprocessing
-
-
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.neighbors import NearestNeighbors
+from sklearn.metrics import accuracy_score
+import NB
+import knn
 
 data = pd.read_csv("/Users/AnkurG/Desktop/EECS349-ML/Projects/datasets/sentiments_mod.csv")
 
 le = preprocessing.LabelEncoder()
 data = data.apply(le.fit_transform)
 
-target = np.array(['Good', 'Bad'])
-classifs = []
-for i in data.values:
-    classification = i[len(i) - 1]
-    classifs.append(classification)
 
-data['train'] = np.random.uniform(0, 1, len(data)) <= 0.75
-data['type'] = pd.Categorical(classifs, target)
-data['targets'] = classifs
+###############################################################################
+def preprocess(text):
+    spaced = ''
+    for i in text:
+        if i == ',':
+            spaced += ' '
+        elif "\"" not in i:
+            spaced += i
 
-train = data[data['train'] == 1]
-test = data[data['train'] == 0]
+    return spaced
 
-trainTargets = np.array(train['targets']).astype(str)
-testTargets = np.array(test['targets']).astype(int)
+def remove_commas(text):
+    for i in text:
+        if i == ',':
+            text.remove(',')
+        elif i == "''":
+            text.remove("''")
+        elif i == "\"":
+            text.remove("\"")
 
-features = data.columns[0:1]
-label = data.columns[1:2]
-
-classifier = KNeighborsClassifier(n_neighbors=1)
-pred = classifier.fit(train[features], trainTargets).predict(test[label])
+    return text
 
 
-control = test[label].values
+def remove_stop_words(text, sw):
+    new = []
+
+
+def main():
+    ###1. first we'll do NB stuff
     
-correct = 0
-for i in range(0, len(pred)):
-    if pred[i] == np.string_(control[i][0]):
-        correct += 1
+    print('The accuracy of GaussianNB is', NB.gnb_accuracy)
+    print('The accuracy of MultinomialNB is', NB.mnb_accuracy)
 
-total = len(pred)
+    ##################################################
+    ###2. now we'll do kNN
 
-results = correct / float(total)
+    #k=1
+    print('The accuracy of kNN is', knn.results)
 
+
+
+
+if __name__ == "__main__":
+    main()
