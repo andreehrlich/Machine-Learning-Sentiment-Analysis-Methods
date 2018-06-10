@@ -30,21 +30,18 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 import sys
 
 datafile = sys.argv[1]
+algo = sys.argv[2]
+feature_title = sys.argv[3]
+target_title = sys.argv[4]
+
 data = pd.read_csv(datafile)
 
-# Get a list of target values
-classifs = []
-for i in data.values:
-    classification = i[len(i) - 1]
-    classifs.append(classification)
-
-targets = np.array(classifs).astype(str)
-features = np.array(data['SentimentText'])
+targets = data[target_title].values.astype(str)
+features = np.array(data[feature_title])
 
 # Split data for x-validation
 X_train, X_test, y_train, y_test = train_test_split(features, targets, test_size=0.25, random_state=0)
 
-algo = sys.argv[2]
 if algo == "MultinomialNB" or algo == "multinomialNB":
     SGD_clf = Pipeline([('vect', CountVectorizer(ngram_range=(1, 4))),
                     ('tfidf', TfidfTransformer()),
@@ -69,8 +66,8 @@ elif algo == "SGDClassifier" or algo == "sgdClassifier":
      SGD_clf = Pipeline([('vect', CountVectorizer(ngram_range=(1, 4))),
                     ('tfidf', TfidfTransformer()),
                     ('clf', SGDClassifier()),
-                    ])    
-    
+                    ])
+
 
 # Fit model to training set
 SGD_clf.fit(X_train, y_train)
