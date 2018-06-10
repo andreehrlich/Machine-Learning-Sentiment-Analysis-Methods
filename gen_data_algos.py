@@ -45,12 +45,12 @@ features = np.array(data['SentimentText'])
 X_train, X_test, y_train, y_test = train_test_split(features, targets, test_size=0.25, random_state=0)
 
 algo = sys.argv[2]
-if algo == "Multinomial" or algo == "multinomial":
+if algo == "MultinomialNB" or algo == "multinomialNB":
     SGD_clf = Pipeline([('vect', CountVectorizer(ngram_range=(1, 4))),
                     ('tfidf', TfidfTransformer()),
                     ('clf', MultinomialNB()),
                     ])
-elif algo == "LO" or algo == "lo":
+elif algo == "LO" or algo == "lo" or algo == "Logistic Regression" or algo == "logistic regression":
     SGD_clf = Pipeline([('vect', CountVectorizer(ngram_range=(1, 4))),
                     ('tfidf', TfidfTransformer()),
                     ('clf', LogisticRegression()),
@@ -65,7 +65,7 @@ elif algo == "BernoulliNB" or algo == "bernoulliNB":
                     ('tfidf', TfidfTransformer()),
                     ('clf', BernoulliNB()),
                     ])
-elif algo == "SGD" or algo == "sgd":
+elif algo == "SGDClassifier" or algo == "sgdClassifier":
      SGD_clf = Pipeline([('vect', CountVectorizer(ngram_range=(1, 4))),
                     ('tfidf', TfidfTransformer()),
                     ('clf', SGDClassifier()),
